@@ -1,62 +1,15 @@
+from sabbat import Sabbat
+from constants_sabbats import (
+  LTH_ALIASES,
+  BEL_ALIASES,
+  LMS_ALIASES,
+  MBN_ALIASES,
+  SMH_ALIASES,
+  YUL_ALIASES,
+  IMB_ALIASES,
+  OST_ALIASES,
+)
 from datetime import datetime
-
-#############################
-# BEGIN CONSTANTS
-#############################
-
-BEL_ALIASES = [
-  "Beltane"
-]
-
-LTH_ALIASES = [
-  "Litha",
-  "Midsummer"
-]
-
-LMS_ALIASES = [
-  "Lammas",
-]
-
-MBN_ALIASES = [
-  "Mabon",
-]
-
-SMH_ALIASES = [
-  "Samhain",
-]
-
-YUL_ALIASES = [
-  "Yule",
-]
-
-IMB_ALIASES = [
-  "Imbolc",
-]
-
-OST_ALIASES = [
-  "Ostara",
-]
-
-#############################
-# END CONSTANTS
-#############################
-
-class Sabbat():
-  def __init__(self, prefix, aliases, date_stamp: str):
-    self.prefix = prefix
-    self.aliases = aliases
-    self.year = date_stamp[:2]
-    self.month = date_stamp[2:4]
-    self.day = date_stamp[4:6]
-
-  def __str__(self):
-    return f"{self.aliases[0]} 20{str(self.year)}"
-  
-  def as_date_stamp(self):
-    return f"{self.year}{self.month}{self.day}"
-  
-  def as_string_code(self):
-    return f"{self.prefix}{self.year}"
 
 class ChronIO:
   def get_all_sabbat_codes(self):
