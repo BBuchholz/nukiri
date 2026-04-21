@@ -1,7 +1,11 @@
 from obsidio import ObsidIO
 from chronio import ChronIO
-from cfg import NwdConfig
-from files import write_lines
+from cfg import NwdConfig, Config, NwdTestConfig
+from files import (
+  write_lines,
+  path_exists,
+) 
+from gdp import GarDinPlot
 
 # COPYING FROM MAGICKAL_RECORD OP_GAR_REPORT.PY
 
@@ -99,10 +103,14 @@ def report(chron: ChronIO, obio: ObsidIO):
     report_lines.append(line)
   return report_lines
 
-def main():  
+def till(gdp: GarDinPlot):  
   chron = ChronIO()
-  nwd_cfg = NwdConfig()
-  obio = ObsidIO(nwd_cfg)
+  print(f"tilling GarDinPlot for {gdp.cfg.nwd_folder()}")
+  obio = ObsidIO(gdp.cfg)
+  cfg_files = obio.get_cfg_files()
+  if len(cfg_files) > 0:
+    md_file = cfg_files[0]
+    obio.load_vaults(md_file)
   gr_file_path = "~/nwd/gdp/GarDinEr_RepOrT.md"
   report_lines = report(chron, obio)
   if(len(report_lines) > 0):
@@ -112,4 +120,10 @@ def main():
     print("nothing to write, aborting...")
 
 if __name__ == '__main__':
-  main()
+  # gdp_nwd_test = GarDinPlot(NwdTestConfig())
+  # till(gdp_nwd_test)
+
+  gdp_nwd_config = GarDinPlot(NwdConfig())
+  till(gdp_nwd_config)
+  
+  # GarDinPlotConfig goes here, which takes an arbitrary vault folder and treats it as all intake folders
