@@ -6,8 +6,32 @@ from files import (
   path_exists,
 ) 
 from gdp import GarDinPlot
+from pathlib import Path
 
-# COPYING FROM MAGICKAL_RECORD OP_GAR_REPORT.PY
+# IMPLEMENTING FROM OGE -> "Affinity Patterns For Liber AeWoN"
+class Sieve:
+  def __init__(self, sieve_name: str):
+    self.sieve_name = sieve_name
+
+  def sift():
+    print("sifting with Sieve class... done.")
+
+class AeWoNicSieve(Sieve):
+  def __init__(self):
+    super().__init__("AeWoNicSieve")
+
+  def sift(self, file_list: list[Path]) -> list[Path]:
+    # TODO: implement sifting logic FROM OGE -> "Affinity Patterns For Liber AeWoN"
+    for path in file_list:
+      print(f"Path: {path.name}")
+    return file_list
+
+def winnow(folder: Path) -> list[Path]:
+  file_list = list(folder.iterdir())
+  sieve = AeWoNicSieve()
+  print(f"sifting {folder} using {sieve.sieve_name}")
+  file_list = sieve.sift(file_list)
+  return file_list
 
 def get_config_lines():
   config_lines = [
@@ -15,7 +39,6 @@ def get_config_lines():
     f"- NWD FOLDER: ~/nwd",
   ]
   return config_lines
-
 
 def get_cet_lines(chron: ChronIO, obio: ObsidIO):
   cet_lines = []
@@ -112,6 +135,7 @@ def till(gdp: GarDinPlot):
     md_file = cfg_files[0]
     obio.load_vaults(md_file)
   gr_file_path = "~/nwd/gdp/GarDinEr_RepOrT.md"
+  winnow(Path(gdp.cfg.nwd_folder()))
   report_lines = report(chron, obio)
   if(len(report_lines) > 0):
     write_lines(gr_file_path, report_lines, True)
